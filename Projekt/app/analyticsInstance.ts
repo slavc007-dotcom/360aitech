@@ -1,7 +1,11 @@
 import { Analytics } from '@segment/analytics-node'
 
 const analyticsSingleton = () => {
-  return new Analytics({ writeKey: process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY as string})
+  // Segment (analytics-node) ni del trenutne faze (Supabase auth/DB) - fallback
+  // preprečuje padec builda, dokler NEXT_PUBLIC_SEGMENT_WRITE_KEY ni nastavljen.
+  return new Analytics({
+    writeKey: process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY || 'not-configured'
+  })
 }
 
 declare global {

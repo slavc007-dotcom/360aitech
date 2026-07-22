@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useEffect } from 'react'
 import { toast } from 'sonner'
 import { IconSpinner } from './ui/icons'
+import { GoogleAuthButton } from './google-auth-button'
 
 export default function LoginForm() {
   const [result, dispatch] = useFormState(authenticate, undefined)
@@ -67,6 +68,17 @@ export default function LoginForm() {
           </div>
         </div>
         <LoginButton />
+        <div className="relative my-2">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-white px-2 text-zinc-500 dark:bg-zinc-950">
+              or
+            </span>
+          </div>
+        </div>
+        <GoogleAuthButton />
       </div>
 
       <Link

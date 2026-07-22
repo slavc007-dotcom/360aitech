@@ -1,5 +1,6 @@
 import { type Session } from '@/lib/types'
 
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -34,6 +35,10 @@ export function UserMenu({ user }: UserMenuProps) {
         <DropdownMenuContent sideOffset={8} align="start" className="w-fit">
           <DropdownMenuItem className="flex-col items-start">
             <div className="text-xs text-zinc-500">{user.email}</div>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem asChild>
+            <Link href="/team">Team</Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <form
