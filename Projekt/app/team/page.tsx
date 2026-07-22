@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { InviteForm } from '@/components/invite-form'
+import { MemberRow } from '@/components/member-row'
 
 export const metadata = {
   title: 'Team'
@@ -29,8 +30,10 @@ export default async function TeamPage() {
 
   const { data: members } = await supabase
     .from('memberships')
-    .select('id, role, profiles(email, full_name)')
+    .select('id, role, allowed_modules, profiles(email, full_name)')
     .eq('org_id', membership.org_id)
+
+  const isAdmin = membership.role === 'admin'
 
   return (
     <main className="flex flex-col gap-8 p-4 md:p-8">
@@ -45,20 +48,21 @@ export default async function TeamPage() {
         <h2 className="mb-3 text-lg font-semibold">Člani</h2>
         <ul className="flex flex-col gap-2">
           {members?.map(m => (
-            <li
+            <MemberRow
               key={m.id}
-              className="flex items-center justify-between rounded-md border px-3 py-2 text-sm"
-            >
-              <span>
-                {(m.profiles as any)?.full_name || (m.profiles as any)?.email}
-              </span>
-              <span className="text-xs text-zinc-500">{m.role}</span>
-            </li>
+              membershipId={m.id}
+              label={
+                (m.profiles as any)?.full_name || (m.profiles as any)?.email
+              }
+              role={m.role}
+              allowedModules={m.allowed_modules ?? []}
+              canEdit={isAdmin}
+            />
           ))}
         </ul>
       </div>
 
-      {membership.role === 'admin' ? (
+      {isAdmin ? (
         <div>
           <h2 className="mb-3 text-lg font-semibold">Povabi sodelavca</h2>
           <InviteForm orgId={membership.org_id} />

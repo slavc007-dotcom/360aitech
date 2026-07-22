@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { createInvite, type InviteResult } from '@/app/team/actions'
 import { IconSpinner } from './ui/icons'
+import { MODULES } from '@/lib/modules'
 
 export function InviteForm({ orgId }: { orgId: string }) {
   const [result, dispatch] = useFormState<InviteResult | undefined, FormData>(
@@ -50,6 +51,19 @@ export function InviteForm({ orgId }: { orgId: string }) {
             <option value="user">User</option>
             <option value="admin">Admin</option>
           </select>
+        </div>
+        <div>
+          <label className="mb-1 block text-xs font-medium text-zinc-400">
+            Dostop do modulov (velja za vlogo User; Admin ima dostop do vsega)
+          </label>
+          <div className="flex flex-col gap-1">
+            {MODULES.map(m => (
+              <label key={m.key} className="flex items-center gap-2 text-sm">
+                <input type="checkbox" name="allowedModules" value={m.key} />
+                {m.label}
+              </label>
+            ))}
+          </div>
         </div>
         <InviteButton />
       </form>
