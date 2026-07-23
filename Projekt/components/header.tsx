@@ -1,5 +1,6 @@
 import * as React from 'react'
-import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 
 import { cn } from '@/lib/utils'
 import { auth } from '@/auth'
@@ -11,6 +12,7 @@ import {
   IconVercel,
 } from '@/components/ui/icons'
 import { UserMenu } from '@/components/user-menu'
+import { LocaleSwitcher } from '@/components/locale-switcher'
 import { SidebarMobile } from './sidebar-mobile'
 import { SidebarToggle } from './sidebar-toggle'
 import { ChatHistory } from './chat-history'
@@ -18,6 +20,7 @@ import { Session } from '@/lib/types'
 
 async function UserOrLogin() {
   const session = (await auth()) as Session
+  const t = await getTranslations('common')
   return (
     <>
       {session?.user ? (
@@ -33,14 +36,14 @@ async function UserOrLogin() {
           <IconNextChat className="hidden size-6 mr-2 dark:block" />
         </Link>
       )}
-      
+
       <div className="flex items-center">
         <IconSeparator className="size-6 text-muted-foreground/50" />
         {session?.user ? (
           <UserMenu user={session.user} />
         ) : (
           <Button variant="link" asChild className="-ml-2">
-            <Link href="/login">Login</Link>
+            <Link href="/login">{t('login')}</Link>
           </Button>
         )}
       </div>
@@ -57,6 +60,7 @@ export function Header() {
         </React.Suspense>
       </div>
       <div className="flex items-center justify-end space-x-2">
+        <LocaleSwitcher />
         <a
           target="_blank"
           href="https://github.com/vaithschmitz/segment-ai-copilot"

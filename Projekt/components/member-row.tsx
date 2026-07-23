@@ -2,12 +2,13 @@
 
 import { useFormState, useFormStatus } from 'react-dom'
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 import {
   updateMembership,
   type UpdateMembershipResult
-} from '@/app/team/actions'
-import { MODULES } from '@/lib/modules'
+} from '@/app/[locale]/team/actions'
+import { MODULE_KEYS } from '@/lib/modules'
 import { IconSpinner } from './ui/icons'
 
 interface MemberRowProps {
@@ -25,6 +26,8 @@ export function MemberRow({
   allowedModules,
   canEdit
 }: MemberRowProps) {
+  const t = useTranslations('team')
+  const tModules = useTranslations('modules')
   const [editing, setEditing] = useState(false)
   const [result, dispatch] = useFormState<
     UpdateMembershipResult | undefined,
@@ -46,14 +49,16 @@ export function MemberRow({
       <div className="flex items-center justify-between">
         <span>{label}</span>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-zinc-500">{role}</span>
+          <span className="text-xs text-zinc-500">
+            {role === 'admin' ? t('roleAdmin') : t('roleUser')}
+          </span>
           {canEdit ? (
             <button
               type="button"
               className="text-xs underline text-zinc-500"
               onClick={() => setEditing(v => !v)}
             >
-              {editing ? 'Prekliči' : 'Uredi'}
+              {editing ? t('cancelButton') : t('editButton')}
             </button>
           ) : null}
         </div>
@@ -64,31 +69,31 @@ export function MemberRow({
           <input type="hidden" name="membershipId" value={membershipId} />
           <div>
             <label className="mb-1 block text-xs font-medium text-zinc-400">
-              Vloga
+              {t('roleLabel')}
             </label>
             <select
               className="w-full rounded-md border bg-zinc-50 px-2 py-[9px] text-sm outline-none dark:border-zinc-800 dark:bg-zinc-950"
               name="role"
               defaultValue={role}
             >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
+              <option value="user">{t('roleUser')}</option>
+              <option value="admin">{t('roleAdmin')}</option>
             </select>
           </div>
           <div>
             <label className="mb-1 block text-xs font-medium text-zinc-400">
-              Dostop do modulov (velja za vlogo User)
+              {t('modulesLabel')}
             </label>
             <div className="flex flex-col gap-1">
-              {MODULES.map(m => (
-                <label key={m.key} className="flex items-center gap-2 text-sm">
+              {MODULE_KEYS.map(key => (
+                <label key={key} className="flex items-center gap-2 text-sm">
                   <input
                     type="checkbox"
                     name="allowedModules"
-                    value={m.key}
-                    defaultChecked={allowedModules.includes(m.key)}
+                    value={key}
+                    defaultChecked={allowedModules.includes(key)}
                   />
-                  {m.label}
+                  {tModules(key)}
                 </label>
               ))}
             </div>
@@ -102,13 +107,14 @@ export function MemberRow({
 
 function SaveButton() {
   const { pending } = useFormStatus()
+  const t = useTranslations('team')
 
   return (
     <button
       className="flex h-9 w-full flex-row items-center justify-center rounded-md bg-zinc-900 p-2 text-xs font-semibold text-zinc-100 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
       aria-disabled={pending}
     >
-      {pending ? <IconSpinner className="animate-spin" /> : 'Shrani'}
+      {pending ? <IconSpinner className="animate-spin" /> : t('saveButton')}
     </button>
   )
 }

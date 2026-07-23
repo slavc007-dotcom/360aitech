@@ -4,7 +4,8 @@ import { createClient } from '@/lib/supabase/server'
 import { ensureOrgMembership } from '@/lib/auth/ensure-membership'
 import { AuthResult } from '@/lib/types'
 import { z } from 'zod'
-import { redirect } from 'next/navigation'
+import { getLocale } from 'next-intl/server'
+import { redirect } from '@/i18n/navigation'
 
 export async function signup(
   _prevState: AuthResult | undefined,
@@ -25,8 +26,10 @@ export async function signup(
     return { type: 'error', message: 'Invalid entries, please try again!' }
   }
 
+  const locale = await getLocale()
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
   const emailRedirectTo = new URL('/auth/callback', siteUrl)
+  emailRedirectTo.searchParams.set('next', `/${locale}`)
   if (inviteToken) {
     emailRedirectTo.searchParams.set('invite', inviteToken)
   }
@@ -55,7 +58,7 @@ export async function signup(
   // in lahko že zdaj ustvarimo organizacijo/pridružitev.
   if (data.session) {
     await ensureOrgMembership(inviteToken)
-    redirect('/')
+    redirect({ href: '/', locale })
   }
 
   return {

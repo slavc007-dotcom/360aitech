@@ -1,4 +1,5 @@
-import { redirect } from 'next/navigation'
+import { getTranslations, getLocale } from 'next-intl/server'
+import { redirect } from '@/i18n/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { InviteForm } from '@/components/invite-form'
 import { MemberRow } from '@/components/member-row'
@@ -9,12 +10,15 @@ export const metadata = {
 
 export default async function TeamPage() {
   const supabase = createClient()
+  const locale = await getLocale()
+  const t = await getTranslations('team')
   const {
     data: { user }
   } = await supabase.auth.getUser()
 
   if (!user) {
-    redirect('/login')
+    redirect({ href: '/login', locale })
+    return
   }
 
   const { data: membership } = await supabase
@@ -25,7 +29,8 @@ export default async function TeamPage() {
     .maybeSingle()
 
   if (!membership) {
-    redirect('/')
+    redirect({ href: '/', locale })
+    return
   }
 
   const { data: members } = await supabase
@@ -41,11 +46,13 @@ export default async function TeamPage() {
         <h1 className="text-2xl font-bold">
           {(membership.organizations as any)?.name ?? 'Organizacija'}
         </h1>
-        <p className="text-sm text-zinc-500">Vaša vloga: {membership.role}</p>
+        <p className="text-sm text-zinc-500">
+          {isAdmin ? t('yourRoleAdmin') : t('yourRoleUser')}
+        </p>
       </div>
 
       <div>
-        <h2 className="mb-3 text-lg font-semibold">Člani</h2>
+        <h2 className="mb-3 text-lg font-semibold">{t('membersHeading')}</h2>
         <ul className="flex flex-col gap-2">
           {members?.map(m => (
             <MemberRow
@@ -64,7 +71,7 @@ export default async function TeamPage() {
 
       {isAdmin ? (
         <div>
-          <h2 className="mb-3 text-lg font-semibold">Povabi sodelavca</h2>
+          <h2 className="mb-3 text-lg font-semibold">{t('inviteHeading')}</h2>
           <InviteForm orgId={membership.org_id} />
         </div>
       ) : null}

@@ -2,13 +2,14 @@ import { Suspense } from 'react'
 import { auth } from '@/auth'
 import SignupForm from '@/components/signup-form'
 import { Session } from '@/lib/types'
-import { redirect } from 'next/navigation'
+import { getLocale } from 'next-intl/server'
+import { redirect } from '@/i18n/navigation'
 
 export default async function SignupPage() {
   const session = (await auth()) as Session
 
   if (session) {
-    redirect('/')
+    redirect({ href: '/', locale: await getLocale() })
   }
 
   return (

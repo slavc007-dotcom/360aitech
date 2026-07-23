@@ -3,7 +3,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { AuthResult } from '@/lib/types'
 import { z } from 'zod'
-import { redirect } from 'next/navigation'
+import { getLocale } from 'next-intl/server'
+import { redirect } from '@/i18n/navigation'
 
 export async function authenticate(
   _prevState: AuthResult | undefined,
@@ -32,5 +33,6 @@ export async function authenticate(
     return { type: 'error', message: 'Invalid credentials!' }
   }
 
-  redirect('/')
+  const locale = await getLocale()
+  redirect({ href: '/', locale })
 }

@@ -1,8 +1,18 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { routing } from '@/i18n/routing'
 
-export async function updateSession(request: NextRequest) {
-  let response = NextResponse.next({ request })
+function stripLocalePrefix(pathname: string) {
+  const localePattern = new RegExp(`^/(${routing.locales.join('|')})(?=/|$)`)
+  const stripped = pathname.replace(localePattern, '')
+  return stripped === '' ? '/' : stripped
+}
+
+export async function updateSession(
+  request: NextRequest,
+  baseResponse: NextResponse
+) {
+  let response = baseResponse
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_360AItechSUPABASE_URL!,
@@ -29,12 +39,14 @@ export async function updateSession(request: NextRequest) {
     data: { user }
   } = await supabase.auth.getUser()
 
-  const { pathname } = request.nextUrl
-  const isOnAuthPage = pathname.startsWith('/login') || pathname.startsWith('/signup')
+  const pathname = stripLocalePrefix(request.nextUrl.pathname)
+  const isOnAuthPage =
+    pathname.startsWith('/login') || pathname.startsWith('/signup')
 
   if (user && isOnAuthPage) {
+    const locale = request.nextUrl.pathname.split('/')[1]
     const url = request.nextUrl.clone()
-    url.pathname = '/'
+    url.pathname = `/${locale}`
     return NextResponse.redirect(url)
   }
 

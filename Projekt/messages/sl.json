@@ -1,0 +1,52 @@
+{
+  "common": {
+    "login": "Prijava",
+    "logout": "Odjava",
+    "team": "Ekipa"
+  },
+  "auth": {
+    "loginTitle": "Prijavite se za nadaljevanje.",
+    "signupTitle": "Registrirajte se za nov račun!",
+    "invitedNotice": "Povabljeni ste bili k pridružitvi obstoječi organizaciji.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Vnesite email naslov",
+    "passwordLabel": "Geslo",
+    "passwordPlaceholder": "Vnesite geslo",
+    "loginButton": "Prijava",
+    "createAccountButton": "Ustvari račun",
+    "noAccountYet": "Še nimate računa?",
+    "signUpLink": "Registracija",
+    "alreadyHaveAccount": "Že imate račun?",
+    "logInLink": "Prijava",
+    "orDivider": "ali",
+    "continueWithGoogle": "Nadaljuj z Google"
+  },
+  "team": {
+    "yourRoleAdmin": "Vaša vloga: Admin",
+    "yourRoleUser": "Vaša vloga: User",
+    "membersHeading": "Člani",
+    "inviteHeading": "Povabi sodelavca",
+    "inviteEmailLabel": "Email sodelavca",
+    "roleLabel": "Vloga",
+    "roleUser": "User",
+    "roleAdmin": "Admin",
+    "modulesLabel": "Dostop do modulov (velja za vlogo User; Admin ima dostop do vsega)",
+    "createInviteButton": "Ustvari povabilo",
+    "inviteLinkLabel": "Povabilna povezava (pošljite jo sodelavcu)",
+    "editButton": "Uredi",
+    "cancelButton": "Prekliči",
+    "saveButton": "Shrani"
+  },
+  "modules": {
+    "chat": "AI Klepet",
+    "email": "E-pošta & Komunikacija",
+    "onboarding": "Onboarding",
+    "support": "Interna podpora",
+    "legal": "Pravni & Zakonodajni asistent",
+    "documents": "Generiranje dokumentov"
+  },
+  "chatAccess": {
+    "title": "Ni dostopa do tega modula",
+    "message": "Za AI Chat nimate dovoljenja. Kontaktirajte administratorja organizacije, da vam odobri dostop na strani Ekipa."
+  }
+}

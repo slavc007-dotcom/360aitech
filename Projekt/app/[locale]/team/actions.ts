@@ -3,15 +3,21 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
+import { getLocale } from 'next-intl/server'
 import { MODULE_KEYS } from '@/lib/modules'
+import { routing } from '@/i18n/routing'
 
 export type InviteResult =
   | { type: 'error'; message: string }
   | { type: 'success'; message: string; link: string }
 
-const moduleKeysSchema = z
-  .array(z.enum(MODULE_KEYS as [string, ...string[]]))
-  .default([])
+const moduleKeysSchema = z.array(z.enum([...MODULE_KEYS])).default([])
+
+function revalidateTeamPage() {
+  for (const locale of routing.locales) {
+    revalidatePath(`/${locale}/team`)
+  }
+}
 
 export async function createInvite(
   _prevState: InviteResult | undefined,
@@ -63,10 +69,11 @@ export async function createInvite(
     }
   }
 
+  const locale = await getLocale()
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-  const link = `${siteUrl}/signup?invite=${invite.token}`
+  const link = `${siteUrl}/${locale}/signup?invite=${invite.token}`
 
-  revalidatePath('/team')
+  revalidateTeamPage()
 
   return { type: 'success', message: 'Invite created!', link }
 }
@@ -111,7 +118,7 @@ export async function updateMembership(
     }
   }
 
-  revalidatePath('/team')
+  revalidateTeamPage()
 
   return { type: 'success', message: 'Member updated!' }
 }

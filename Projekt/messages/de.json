@@ -1,0 +1,52 @@
+{
+  "common": {
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "team": "Team"
+  },
+  "auth": {
+    "loginTitle": "Bitte melden Sie sich an, um fortzufahren.",
+    "signupTitle": "Registrieren Sie sich für ein Konto!",
+    "invitedNotice": "Sie wurden eingeladen, einer bestehenden Organisation beizutreten.",
+    "emailLabel": "E-Mail",
+    "emailPlaceholder": "E-Mail-Adresse eingeben",
+    "passwordLabel": "Passwort",
+    "passwordPlaceholder": "Passwort eingeben",
+    "loginButton": "Anmelden",
+    "createAccountButton": "Konto erstellen",
+    "noAccountYet": "Noch kein Konto?",
+    "signUpLink": "Registrieren",
+    "alreadyHaveAccount": "Bereits ein Konto?",
+    "logInLink": "Anmelden",
+    "orDivider": "oder",
+    "continueWithGoogle": "Weiter mit Google"
+  },
+  "team": {
+    "yourRoleAdmin": "Ihre Rolle: Admin",
+    "yourRoleUser": "Ihre Rolle: Benutzer",
+    "membersHeading": "Mitglieder",
+    "inviteHeading": "Kollegen einladen",
+    "inviteEmailLabel": "E-Mail des Kollegen",
+    "roleLabel": "Rolle",
+    "roleUser": "Benutzer",
+    "roleAdmin": "Admin",
+    "modulesLabel": "Modulzugriff (gilt für die Rolle Benutzer; Admin hat Zugriff auf alles)",
+    "createInviteButton": "Einladung erstellen",
+    "inviteLinkLabel": "Einladungslink (an den Kollegen senden)",
+    "editButton": "Bearbeiten",
+    "cancelButton": "Abbrechen",
+    "saveButton": "Speichern"
+  },
+  "modules": {
+    "chat": "KI-Chat",
+    "email": "E-Mail & Kommunikation",
+    "onboarding": "Onboarding",
+    "support": "Interner Support",
+    "legal": "Rechts- & Compliance-Assistent",
+    "documents": "Dokumentenerstellung"
+  },
+  "chatAccess": {
+    "title": "Kein Zugriff auf dieses Modul",
+    "message": "Sie haben keine Berechtigung für den KI-Chat. Wenden Sie sich an Ihren Organisationsadministrator, um auf der Team-Seite Zugriff zu beantragen."
+  }
+}

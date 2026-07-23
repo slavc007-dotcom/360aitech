@@ -1,15 +1,17 @@
 'use client'
 
 import { useFormState, useFormStatus } from 'react-dom'
-import { signup } from '@/app/signup/actions'
-import Link from 'next/link'
+import { signup } from '@/app/[locale]/signup/actions'
+import { Link } from '@/i18n/navigation'
 import { useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 import { IconSpinner } from './ui/icons'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { GoogleAuthButton } from './google-auth-button'
 
 export default function SignupForm() {
+  const t = useTranslations('auth')
   const router = useRouter()
   const searchParams = useSearchParams()
   const inviteToken = searchParams.get('invite')
@@ -32,11 +34,9 @@ export default function SignupForm() {
       className="flex flex-col items-center gap-4 space-y-3"
     >
       <div className="w-full flex-1 rounded-lg border bg-white px-6 pb-4 pt-8 shadow-md dark:bg-zinc-950 md:w-96">
-        <h1 className="mb-3 text-2xl font-bold">Sign up for an account!</h1>
+        <h1 className="mb-3 text-2xl font-bold">{t('signupTitle')}</h1>
         {inviteToken ? (
-          <p className="mb-3 text-xs text-zinc-500">
-            You were invited to join an existing organization.
-          </p>
+          <p className="mb-3 text-xs text-zinc-500">{t('invitedNotice')}</p>
         ) : null}
         <input type="hidden" name="inviteToken" value={inviteToken ?? ''} />
         <div className="w-full">
@@ -45,7 +45,7 @@ export default function SignupForm() {
               className="mb-3 mt-5 block text-xs font-medium text-zinc-400"
               htmlFor="email"
             >
-              Email
+              {t('emailLabel')}
             </label>
             <div className="relative">
               <input
@@ -53,7 +53,7 @@ export default function SignupForm() {
                 id="email"
                 type="email"
                 name="email"
-                placeholder="Enter your email address"
+                placeholder={t('emailPlaceholder')}
                 required
               />
             </div>
@@ -63,7 +63,7 @@ export default function SignupForm() {
               className="mb-3 mt-5 block text-xs font-medium text-zinc-400"
               htmlFor="password"
             >
-              Password
+              {t('passwordLabel')}
             </label>
             <div className="relative">
               <input
@@ -71,7 +71,7 @@ export default function SignupForm() {
                 id="password"
                 type="password"
                 name="password"
-                placeholder="Enter password"
+                placeholder={t('passwordPlaceholder')}
                 required
                 minLength={6}
               />
@@ -85,7 +85,7 @@ export default function SignupForm() {
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-white px-2 text-zinc-500 dark:bg-zinc-950">
-              or
+              {t('orDivider')}
             </span>
           </div>
         </div>
@@ -93,8 +93,8 @@ export default function SignupForm() {
       </div>
 
       <Link href="/login" className="flex flex-row gap-1 text-sm text-zinc-400">
-        Already have an account?
-        <div className="font-semibold underline">Log in</div>
+        {t('alreadyHaveAccount')}
+        <div className="font-semibold underline">{t('logInLink')}</div>
       </Link>
     </form>
   )
@@ -102,13 +102,14 @@ export default function SignupForm() {
 
 function LoginButton() {
   const { pending } = useFormStatus()
+  const t = useTranslations('auth')
 
   return (
     <button
       className="flex flex-row justify-center items-center my-4 h-10 w-full rounded-md bg-zinc-900 p-2 text-sm font-semibold text-zinc-100 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
       aria-disabled={pending}
     >
-      {pending ? <IconSpinner /> : 'Create account'}
+      {pending ? <IconSpinner /> : t('createAccountButton')}
     </button>
   )
 }

@@ -1,0 +1,52 @@
+{
+  "common": {
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "team": "Équipe"
+  },
+  "auth": {
+    "loginTitle": "Veuillez vous connecter pour continuer.",
+    "signupTitle": "Créez un compte !",
+    "invitedNotice": "Vous avez été invité à rejoindre une organisation existante.",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "Saisissez votre adresse e-mail",
+    "passwordLabel": "Mot de passe",
+    "passwordPlaceholder": "Saisissez votre mot de passe",
+    "loginButton": "Se connecter",
+    "createAccountButton": "Créer un compte",
+    "noAccountYet": "Pas encore de compte ?",
+    "signUpLink": "S'inscrire",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?",
+    "logInLink": "Se connecter",
+    "orDivider": "ou",
+    "continueWithGoogle": "Continuer avec Google"
+  },
+  "team": {
+    "yourRoleAdmin": "Votre rôle : Admin",
+    "yourRoleUser": "Votre rôle : Utilisateur",
+    "membersHeading": "Membres",
+    "inviteHeading": "Inviter un collègue",
+    "inviteEmailLabel": "E-mail du collègue",
+    "roleLabel": "Rôle",
+    "roleUser": "Utilisateur",
+    "roleAdmin": "Admin",
+    "modulesLabel": "Accès aux modules (s'applique au rôle Utilisateur ; Admin a accès à tout)",
+    "createInviteButton": "Créer l'invitation",
+    "inviteLinkLabel": "Lien d'invitation (à envoyer à votre collègue)",
+    "editButton": "Modifier",
+    "cancelButton": "Annuler",
+    "saveButton": "Enregistrer"
+  },
+  "modules": {
+    "chat": "Chat IA",
+    "email": "E-mail & Communication",
+    "onboarding": "Intégration",
+    "support": "Support interne",
+    "legal": "Assistant juridique & conformité",
+    "documents": "Génération de documents"
+  },
+  "chatAccess": {
+    "title": "Pas d'accès à ce module",
+    "message": "Vous n'avez pas la permission d'utiliser le Chat IA. Contactez l'administrateur de votre organisation pour demander l'accès sur la page Équipe."
+  }
+}

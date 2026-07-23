@@ -1,6 +1,7 @@
 import { type Session } from '@/lib/types'
 
-import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -20,7 +21,9 @@ function getUserInitials(name: string) {
   return lastName ? `${firstName[0]}${lastName[0]}` : firstName.slice(0, 2)
 }
 
-export function UserMenu({ user }: UserMenuProps) {
+export async function UserMenu({ user }: UserMenuProps) {
+  const t = await getTranslations('common')
+
   return (
     <div className="flex items-center justify-between">
       <DropdownMenu>
@@ -38,7 +41,7 @@ export function UserMenu({ user }: UserMenuProps) {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
-            <Link href="/team">Team</Link>
+            <Link href="/team">{t('team')}</Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <form
@@ -48,7 +51,7 @@ export function UserMenu({ user }: UserMenuProps) {
             }}
           >
             <button className=" relative flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-xs outline-none transition-colors hover:bg-red-500 hover:text-white focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-              Sign Out
+              {t('logout')}
             </button>
           </form>
         </DropdownMenuContent>
