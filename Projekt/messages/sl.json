@@ -23,12 +23,14 @@
   },
   "team": {
     "yourRoleAdmin": "Vaša vloga: Admin",
+    "yourRoleVodja": "Vaša vloga: Vodja",
     "yourRoleUser": "Vaša vloga: User",
     "membersHeading": "Člani",
     "inviteHeading": "Povabi sodelavca",
     "inviteEmailLabel": "Email sodelavca",
     "roleLabel": "Vloga",
     "roleUser": "User",
+    "roleVodja": "Vodja",
     "roleAdmin": "Admin",
     "modulesLabel": "Dostop do modulov (velja za vlogo User; Admin ima dostop do vsega)",
     "createInviteButton": "Ustvari povabilo",
@@ -48,5 +50,12 @@
   "chatAccess": {
     "title": "Ni dostopa do tega modula",
     "message": "Za AI Chat nimate dovoljenja. Kontaktirajte administratorja organizacije, da vam odobri dostop na strani Ekipa."
+  },
+  "inviteEmail": {
+    "subject": "Povabljeni ste v {org} na 360AITech",
+    "heading": "Povabljeni ste!",
+    "body": "Povabljeni ste, da se pridružite {org} na 360AITech. Kliknite spodnji gumb, da ustvarite svoj račun.",
+    "button": "Sprejmi povabilo",
+    "ignore": "Če tega povabila niste pričakovali, lahko ta email preprosto prezrete."
   }
 }

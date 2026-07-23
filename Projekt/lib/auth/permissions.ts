@@ -1,10 +1,12 @@
 import { createClient } from '@/lib/supabase/server'
 import type { ModuleKey } from '@/lib/modules'
 
+export type MembershipRole = 'admin' | 'vodja' | 'user'
+
 export interface CurrentMembership {
   id: string
   orgId: string
-  role: 'admin' | 'user'
+  role: MembershipRole
   allowedModules: string[]
 }
 
@@ -38,6 +40,28 @@ export function hasModuleAccess(
   moduleKey: ModuleKey
 ) {
   if (!membership) return false
-  if (membership.role === 'admin') return true
+  if (membership.role === 'admin' || membership.role === 'vodja') return true
   return membership.allowedModules.includes(moduleKey)
+}
+
+export function canManageKnowledgeBase(membership: CurrentMembership | null) {
+  if (!membership) return false
+  return membership.role === 'admin' || membership.role === 'vodja'
+}
+
+export async function isSuperAdmin(): Promise<boolean> {
+  const supabase = createClient()
+  const {
+    data: { user }
+  } = await supabase.auth.getUser()
+
+  if (!user) return false
+
+  const { data } = await supabase
+    .from('platform_admins')
+    .select('user_id')
+    .eq('user_id', user.id)
+    .maybeSingle()
+
+  return Boolean(data)
 }

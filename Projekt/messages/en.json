@@ -23,12 +23,14 @@
   },
   "team": {
     "yourRoleAdmin": "Your role: Admin",
+    "yourRoleVodja": "Your role: Manager",
     "yourRoleUser": "Your role: User",
     "membersHeading": "Members",
     "inviteHeading": "Invite a teammate",
     "inviteEmailLabel": "Colleague's email",
     "roleLabel": "Role",
     "roleUser": "User",
+    "roleVodja": "Manager",
     "roleAdmin": "Admin",
     "modulesLabel": "Module access (applies to User role; Admin has access to everything)",
     "createInviteButton": "Create invite",
@@ -48,5 +50,12 @@
   "chatAccess": {
     "title": "No access to this module",
     "message": "You don't have permission for AI Chat. Contact your organization admin to request access on the Team page."
+  },
+  "inviteEmail": {
+    "subject": "You've been invited to join {org} on 360AITech",
+    "heading": "You're invited!",
+    "body": "You've been invited to join {org} on 360AITech. Click the button below to create your account.",
+    "button": "Accept invite",
+    "ignore": "If you weren't expecting this invite, you can safely ignore this email."
   }
 }

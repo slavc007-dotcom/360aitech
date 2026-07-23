@@ -23,12 +23,14 @@
   },
   "team": {
     "yourRoleAdmin": "Ihre Rolle: Admin",
+    "yourRoleVodja": "Ihre Rolle: Manager",
     "yourRoleUser": "Ihre Rolle: Benutzer",
     "membersHeading": "Mitglieder",
     "inviteHeading": "Kollegen einladen",
     "inviteEmailLabel": "E-Mail des Kollegen",
     "roleLabel": "Rolle",
     "roleUser": "Benutzer",
+    "roleVodja": "Manager",
     "roleAdmin": "Admin",
     "modulesLabel": "Modulzugriff (gilt für die Rolle Benutzer; Admin hat Zugriff auf alles)",
     "createInviteButton": "Einladung erstellen",
@@ -48,5 +50,12 @@
   "chatAccess": {
     "title": "Kein Zugriff auf dieses Modul",
     "message": "Sie haben keine Berechtigung für den KI-Chat. Wenden Sie sich an Ihren Organisationsadministrator, um auf der Team-Seite Zugriff zu beantragen."
+  },
+  "inviteEmail": {
+    "subject": "Sie wurden zu {org} auf 360AITech eingeladen",
+    "heading": "Sie sind eingeladen!",
+    "body": "Sie wurden eingeladen, {org} auf 360AITech beizutreten. Klicken Sie auf die Schaltfläche unten, um Ihr Konto zu erstellen.",
+    "button": "Einladung annehmen",
+    "ignore": "Wenn Sie diese Einladung nicht erwartet haben, können Sie diese E-Mail ignorieren."
   }
 }

@@ -23,12 +23,14 @@
   },
   "team": {
     "yourRoleAdmin": "Tu rol: Admin",
+    "yourRoleVodja": "Tu rol: Gerente",
     "yourRoleUser": "Tu rol: Usuario",
     "membersHeading": "Miembros",
     "inviteHeading": "Invitar a un compañero",
     "inviteEmailLabel": "Correo del compañero",
     "roleLabel": "Rol",
     "roleUser": "Usuario",
+    "roleVodja": "Gerente",
     "roleAdmin": "Admin",
     "modulesLabel": "Acceso a módulos (aplica al rol Usuario; Admin tiene acceso a todo)",
     "createInviteButton": "Crear invitación",
@@ -48,5 +50,12 @@
   "chatAccess": {
     "title": "Sin acceso a este módulo",
     "message": "No tienes permiso para el Chat IA. Contacta al administrador de tu organización para solicitar acceso en la página Equipo."
+  },
+  "inviteEmail": {
+    "subject": "Has sido invitado a unirte a {org} en 360AITech",
+    "heading": "¡Estás invitado!",
+    "body": "Has sido invitado a unirte a {org} en 360AITech. Haz clic en el botón de abajo para crear tu cuenta.",
+    "button": "Aceptar invitación",
+    "ignore": "Si no esperabas esta invitación, puedes ignorar este correo."
   }
 }

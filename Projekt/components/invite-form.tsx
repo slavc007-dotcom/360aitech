@@ -8,7 +8,13 @@ import { createInvite, type InviteResult } from '@/app/[locale]/team/actions'
 import { IconSpinner } from './ui/icons'
 import { MODULE_KEYS } from '@/lib/modules'
 
-export function InviteForm({ orgId }: { orgId: string }) {
+export function InviteForm({
+  orgId,
+  canAssignAnyRole
+}: {
+  orgId: string
+  canAssignAnyRole: boolean
+}) {
   const t = useTranslations('team')
   const tModules = useTranslations('modules')
   const [result, dispatch] = useFormState<InviteResult | undefined, FormData>(
@@ -46,14 +52,22 @@ export function InviteForm({ orgId }: { orgId: string }) {
           <label className="mb-1 block text-xs font-medium text-zinc-400">
             {t('roleLabel')}
           </label>
-          <select
-            className="w-full rounded-md border bg-zinc-50 px-2 py-[9px] text-sm outline-none dark:border-zinc-800 dark:bg-zinc-950"
-            name="role"
-            defaultValue="user"
-          >
-            <option value="user">{t('roleUser')}</option>
-            <option value="admin">{t('roleAdmin')}</option>
-          </select>
+          {canAssignAnyRole ? (
+            <select
+              className="w-full rounded-md border bg-zinc-50 px-2 py-[9px] text-sm outline-none dark:border-zinc-800 dark:bg-zinc-950"
+              name="role"
+              defaultValue="user"
+            >
+              <option value="user">{t('roleUser')}</option>
+              <option value="vodja">{t('roleVodja')}</option>
+              <option value="admin">{t('roleAdmin')}</option>
+            </select>
+          ) : (
+            <>
+              <p className="text-sm text-zinc-500">{t('roleUser')}</p>
+              <input type="hidden" name="role" value="user" />
+            </>
+          )}
         </div>
         <div>
           <label className="mb-1 block text-xs font-medium text-zinc-400">

@@ -50,7 +50,11 @@ export function MemberRow({
         <span>{label}</span>
         <div className="flex items-center gap-2">
           <span className="text-xs text-zinc-500">
-            {role === 'admin' ? t('roleAdmin') : t('roleUser')}
+            {role === 'admin'
+              ? t('roleAdmin')
+              : role === 'vodja'
+                ? t('roleVodja')
+                : t('roleUser')}
           </span>
           {canEdit ? (
             <button
@@ -77,6 +81,7 @@ export function MemberRow({
               defaultValue={role}
             >
               <option value="user">{t('roleUser')}</option>
+              <option value="vodja">{t('roleVodja')}</option>
               <option value="admin">{t('roleAdmin')}</option>
             </select>
           </div>

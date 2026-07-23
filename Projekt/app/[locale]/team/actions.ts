@@ -3,13 +3,14 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
-import { getLocale } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { MODULE_KEYS } from '@/lib/modules'
 import { routing } from '@/i18n/routing'
+import { sendInviteEmail } from '@/lib/email/send-invite'
 
 export type InviteResult =
   | { type: 'error'; message: string }
-  | { type: 'success'; message: string; link: string }
+  | { type: 'success'; message: string; link: string; emailSent: boolean }
 
 const moduleKeysSchema = z.array(z.enum([...MODULE_KEYS])).default([])
 
@@ -26,7 +27,7 @@ export async function createInvite(
   const parsed = z
     .object({
       email: z.string().email(),
-      role: z.enum(['admin', 'user']),
+      role: z.enum(['admin', 'vodja', 'user']),
       orgId: z.string().uuid(),
       allowedModules: moduleKeysSchema
     })
@@ -50,6 +51,23 @@ export async function createInvite(
     return { type: 'error', message: 'Unauthorized' }
   }
 
+  const { data: callerMembership } = await supabase
+    .from('memberships')
+    .select('role')
+    .eq('org_id', parsed.data.orgId)
+    .eq('user_id', user.id)
+    .maybeSingle()
+
+  if (
+    callerMembership?.role === 'vodja' &&
+    parsed.data.role !== 'user'
+  ) {
+    return {
+      type: 'error',
+      message: 'Vodja can only invite members with the User role.'
+    }
+  }
+
   const { data: invite, error } = await supabase
     .from('org_invites')
     .insert({
@@ -59,7 +77,7 @@ export async function createInvite(
       allowed_modules: parsed.data.allowedModules,
       invited_by: user.id
     })
-    .select('token')
+    .select('token, organizations(name)')
     .single()
 
   if (error || !invite) {
@@ -72,10 +90,29 @@ export async function createInvite(
   const locale = await getLocale()
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
   const link = `${siteUrl}/${locale}/signup?invite=${invite.token}`
+  const orgName = (invite.organizations as any)?.name ?? '360AITech'
+
+  const t = await getTranslations('inviteEmail')
+  const { sent } = await sendInviteEmail({
+    to: parsed.data.email,
+    subject: t('subject', { org: orgName }),
+    heading: t('heading'),
+    body: t('body', { org: orgName }),
+    buttonLabel: t('button'),
+    ignoreLabel: t('ignore'),
+    link
+  })
 
   revalidateTeamPage()
 
-  return { type: 'success', message: 'Invite created!', link }
+  return {
+    type: 'success',
+    message: sent
+      ? 'Invite email sent!'
+      : "Invite created, but the email couldn't be sent - copy the link below.",
+    link,
+    emailSent: sent
+  }
 }
 
 export type UpdateMembershipResult =
@@ -89,7 +126,7 @@ export async function updateMembership(
   const parsed = z
     .object({
       membershipId: z.string().uuid(),
-      role: z.enum(['admin', 'user']),
+      role: z.enum(['admin', 'vodja', 'user']),
       allowedModules: moduleKeysSchema
     })
     .safeParse({

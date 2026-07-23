@@ -7,6 +7,11 @@ SUPABASE_SERVICE_ROLE_KEY=""
 # Lokalno: http://localhost:3000, v Vercelu: https://vas-domena.si
 NEXT_PUBLIC_SITE_URL="http://localhost:3000"
 
+# Resend — pošiljanje email povabil (resend.com/api-keys)
+RESEND_API_KEY=""
+# Dokler nimate lastne verificirane domene, pustite na onboarding@resend.dev
+RESEND_FROM_EMAIL="360AITech <onboarding@resend.dev>"
+
 # You must first activate a Billing Account here: https://platform.openai.com/account/billing/overview
 # Then get your OpenAI API Key here: https://platform.openai.com/account/api-keys
 OPENAI_API_KEY=""

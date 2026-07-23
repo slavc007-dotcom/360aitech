@@ -39,6 +39,8 @@ export default async function TeamPage() {
     .eq('org_id', membership.org_id)
 
   const isAdmin = membership.role === 'admin'
+  const isVodja = membership.role === 'vodja'
+  const canInvite = isAdmin || isVodja
 
   return (
     <main className="flex flex-col gap-8 p-4 md:p-8">
@@ -47,7 +49,11 @@ export default async function TeamPage() {
           {(membership.organizations as any)?.name ?? 'Organizacija'}
         </h1>
         <p className="text-sm text-zinc-500">
-          {isAdmin ? t('yourRoleAdmin') : t('yourRoleUser')}
+          {isAdmin
+            ? t('yourRoleAdmin')
+            : isVodja
+              ? t('yourRoleVodja')
+              : t('yourRoleUser')}
         </p>
       </div>
 
@@ -69,10 +75,10 @@ export default async function TeamPage() {
         </ul>
       </div>
 
-      {isAdmin ? (
+      {canInvite ? (
         <div>
           <h2 className="mb-3 text-lg font-semibold">{t('inviteHeading')}</h2>
-          <InviteForm orgId={membership.org_id} />
+          <InviteForm orgId={membership.org_id} canAssignAnyRole={isAdmin} />
         </div>
       ) : null}
     </main>
