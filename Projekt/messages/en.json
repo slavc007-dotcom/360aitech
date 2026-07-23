@@ -2,7 +2,8 @@
   "common": {
     "login": "Login",
     "logout": "Sign Out",
-    "team": "Team"
+    "team": "Team",
+    "knowledgeBase": "Knowledge Base"
   },
   "auth": {
     "loginTitle": "Please log in to continue.",
@@ -50,6 +51,20 @@
   "chatAccess": {
     "title": "No access to this module",
     "message": "You don't have permission for AI Chat. Contact your organization admin to request access on the Team page."
+  },
+  "knowledge": {
+    "uploadHeading": "Upload document",
+    "uploadButton": "Upload",
+    "documentsHeading": "Documents",
+    "noDocuments": "No documents yet.",
+    "statusPending": "Pending",
+    "statusProcessing": "Processing",
+    "statusReady": "Ready",
+    "statusError": "Error",
+    "chatPlaceholder": "Ask a question about these documents...",
+    "sendButton": "Send",
+    "noAccessTitle": "No access to this module",
+    "noAccessMessage": "Contact your organization admin to request access on the Team page."
   },
   "inviteEmail": {
     "subject": "You've been invited to join {org} on 360AITech",

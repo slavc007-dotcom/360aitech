@@ -2,7 +2,8 @@
   "common": {
     "login": "Anmelden",
     "logout": "Abmelden",
-    "team": "Team"
+    "team": "Team",
+    "knowledgeBase": "Wissensdatenbank"
   },
   "auth": {
     "loginTitle": "Bitte melden Sie sich an, um fortzufahren.",
@@ -50,6 +51,20 @@
   "chatAccess": {
     "title": "Kein Zugriff auf dieses Modul",
     "message": "Sie haben keine Berechtigung für den KI-Chat. Wenden Sie sich an Ihren Organisationsadministrator, um auf der Team-Seite Zugriff zu beantragen."
+  },
+  "knowledge": {
+    "uploadHeading": "Dokument hochladen",
+    "uploadButton": "Hochladen",
+    "documentsHeading": "Dokumente",
+    "noDocuments": "Noch keine Dokumente.",
+    "statusPending": "Ausstehend",
+    "statusProcessing": "Wird verarbeitet",
+    "statusReady": "Bereit",
+    "statusError": "Fehler",
+    "chatPlaceholder": "Stellen Sie eine Frage zu diesen Dokumenten...",
+    "sendButton": "Senden",
+    "noAccessTitle": "Kein Zugriff auf dieses Modul",
+    "noAccessMessage": "Wenden Sie sich an Ihren Organisationsadministrator, um auf der Team-Seite Zugriff zu beantragen."
   },
   "inviteEmail": {
     "subject": "Sie wurden zu {org} auf 360AITech eingeladen",

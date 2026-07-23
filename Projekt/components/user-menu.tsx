@@ -43,6 +43,9 @@ export function UserMenu({ user }: UserMenuProps) {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
+            <Link href="/knowledge">{t('knowledgeBase')}</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
             <Link href="/team">{t('team')}</Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />

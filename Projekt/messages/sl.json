@@ -2,7 +2,8 @@
   "common": {
     "login": "Prijava",
     "logout": "Odjava",
-    "team": "Ekipa"
+    "team": "Ekipa",
+    "knowledgeBase": "Baza znanja"
   },
   "auth": {
     "loginTitle": "Prijavite se za nadaljevanje.",
@@ -50,6 +51,20 @@
   "chatAccess": {
     "title": "Ni dostopa do tega modula",
     "message": "Za AI Chat nimate dovoljenja. Kontaktirajte administratorja organizacije, da vam odobri dostop na strani Ekipa."
+  },
+  "knowledge": {
+    "uploadHeading": "Naloži dokument",
+    "uploadButton": "Naloži",
+    "documentsHeading": "Dokumenti",
+    "noDocuments": "Še ni dokumentov.",
+    "statusPending": "Čaka",
+    "statusProcessing": "Obdelava",
+    "statusReady": "Pripravljen",
+    "statusError": "Napaka",
+    "chatPlaceholder": "Postavite vprašanje o teh dokumentih...",
+    "sendButton": "Pošlji",
+    "noAccessTitle": "Ni dostopa do tega modula",
+    "noAccessMessage": "Kontaktirajte administratorja organizacije za dostop na strani Ekipa."
   },
   "inviteEmail": {
     "subject": "Povabljeni ste v {org} na 360AITech",

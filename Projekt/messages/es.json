@@ -2,7 +2,8 @@
   "common": {
     "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
-    "team": "Equipo"
+    "team": "Equipo",
+    "knowledgeBase": "Base de conocimientos"
   },
   "auth": {
     "loginTitle": "Inicia sesión para continuar.",
@@ -50,6 +51,20 @@
   "chatAccess": {
     "title": "Sin acceso a este módulo",
     "message": "No tienes permiso para el Chat IA. Contacta al administrador de tu organización para solicitar acceso en la página Equipo."
+  },
+  "knowledge": {
+    "uploadHeading": "Subir documento",
+    "uploadButton": "Subir",
+    "documentsHeading": "Documentos",
+    "noDocuments": "Aún no hay documentos.",
+    "statusPending": "Pendiente",
+    "statusProcessing": "Procesando",
+    "statusReady": "Listo",
+    "statusError": "Error",
+    "chatPlaceholder": "Haz una pregunta sobre estos documentos...",
+    "sendButton": "Enviar",
+    "noAccessTitle": "Sin acceso a este módulo",
+    "noAccessMessage": "Contacta al administrador de tu organización para solicitar acceso en la página Equipo."
   },
   "inviteEmail": {
     "subject": "Has sido invitado a unirte a {org} en 360AITech",
