@@ -1,6 +1,8 @@
+'use client'
+
 import { type Session } from '@/lib/types'
 
-import { getTranslations } from 'next-intl/server'
+import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { Button } from '@/components/ui/button'
 import {
@@ -10,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { signOut } from '@/auth'
+import { signOutAction } from '@/lib/auth/actions'
 
 export interface UserMenuProps {
   user: Session['user']
@@ -21,8 +23,8 @@ function getUserInitials(name: string) {
   return lastName ? `${firstName[0]}${lastName[0]}` : firstName.slice(0, 2)
 }
 
-export async function UserMenu({ user }: UserMenuProps) {
-  const t = await getTranslations('common')
+export function UserMenu({ user }: UserMenuProps) {
+  const t = useTranslations('common')
 
   return (
     <div className="flex items-center justify-between">
@@ -44,12 +46,7 @@ export async function UserMenu({ user }: UserMenuProps) {
             <Link href="/team">{t('team')}</Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <form
-            action={async () => {
-              'use server'
-              await signOut()
-            }}
-          >
+          <form action={signOutAction}>
             <button className=" relative flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-xs outline-none transition-colors hover:bg-red-500 hover:text-white focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
               {t('logout')}
             </button>
