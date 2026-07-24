@@ -37,7 +37,7 @@ async function streamWithGemini(systemPrompt: string, messages: ChatMessage[]) {
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY ?? '' })
 
   const stream = await ai.models.generateContentStream({
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3.5-flash',
     contents: messages.map(m => ({
       role: m.role === 'assistant' ? 'model' : 'user',
       parts: [{ text: m.content }]
