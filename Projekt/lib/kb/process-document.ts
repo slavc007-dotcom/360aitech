@@ -1,4 +1,3 @@
-import OpenAI from 'openai'
 // Uvoz iz notranje datoteke (ne iz paketnega root-a) obide znan bug v
 // pdf-parse@1.1.1, kjer se ob webpack/Next.js bundlanju sproži interni
 // "debug mode", ki poskuša prebrati testno fixture datoteko ob importu.
@@ -6,10 +5,7 @@ import OpenAI from 'openai'
 import pdf from 'pdf-parse/lib/pdf-parse.js'
 import mammoth from 'mammoth'
 import { createClient } from '@/lib/supabase/server'
-
-function getOpenAI() {
-  return new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
-}
+import { embedText } from '@/lib/kb/embeddings'
 
 const CHUNK_SIZE = 1500
 const CHUNK_OVERLAP = 200
@@ -77,19 +73,14 @@ export async function processDocument(documentId: string) {
       throw new Error('No extractable text found in document')
     }
 
-    const openai = getOpenAI()
-
     for (let i = 0; i < chunks.length; i++) {
-      const embeddingRes = await openai.embeddings.create({
-        model: 'text-embedding-3-small',
-        input: chunks[i]
-      })
+      const embedding = await embedText(chunks[i])
 
       await supabase.from('kb_chunks').insert({
         document_id: documentId,
         org_id: doc.org_id,
         content: chunks[i],
-        embedding: embeddingRes.data[0].embedding,
+        embedding,
         chunk_index: i
       })
     }

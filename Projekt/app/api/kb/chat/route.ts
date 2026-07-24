@@ -1,12 +1,12 @@
-import OpenAI from 'openai'
-import { OpenAIStream, StreamingTextResponse } from 'ai'
+import Anthropic from '@anthropic-ai/sdk'
+import { AnthropicStream, StreamingTextResponse } from 'ai'
 import { createClient } from '@/lib/supabase/server'
 import { isKnowledgeModule } from '@/lib/modules'
+import { embedText } from '@/lib/kb/embeddings'
 
 export const runtime = 'nodejs'
 
 export async function POST(req: Request) {
-  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
   const { messages, orgId, module: moduleKey } = await req.json()
 
   if (typeof orgId !== 'string' || !isKnowledgeModule(moduleKey)) {
@@ -34,14 +34,10 @@ export async function POST(req: Request) {
   }
 
   const lastMessage = messages[messages.length - 1]?.content ?? ''
-
-  const embeddingRes = await openai.embeddings.create({
-    model: 'text-embedding-3-small',
-    input: lastMessage
-  })
+  const queryEmbedding = await embedText(lastMessage)
 
   const { data: chunks } = await supabase.rpc('match_kb_chunks', {
-    query_embedding: embeddingRes.data[0].embedding,
+    query_embedding: queryEmbedding,
     match_org_id: orgId,
     match_module: moduleKey,
     match_count: 6
@@ -51,17 +47,24 @@ export async function POST(req: Request) {
     (chunks ?? []).map((c: { content: string }) => c.content).join('\n---\n') ||
     '(No matching documents found.)'
 
-  const systemMessage = {
-    role: 'system' as const,
-    content: `You are an internal assistant answering questions using the company's own documents. Answer only using the context below. If the answer isn't in the context, say you don't know rather than guessing.\n\nContext:\n${context}`
-  }
+  const systemPrompt = `You are an internal assistant answering questions using the company's own documents. Answer only using the context below. If the answer isn't in the context, say you don't know rather than guessing.\n\nContext:\n${context}`
 
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
+  const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+
+  const response = await anthropic.messages.create({
+    model: 'claude-3-5-sonnet-latest',
+    max_tokens: 1024,
+    system: systemPrompt,
     stream: true,
-    messages: [systemMessage, ...messages]
+    messages: messages.map((m: { role: string; content: string }) => ({
+      role: m.role === 'assistant' ? 'assistant' : 'user',
+      content: m.content
+    }))
   })
 
-  const stream = OpenAIStream(response)
+  // `ai@3` typet AnthropicStream proti starejši @anthropic-ai/sdk verziji;
+  // nameščena novejša verzija ima strukturno enak, a nominalno drugačen
+  // event-tip (RawMessageStreamEvent). Runtime shape je enak.
+  const stream = AnthropicStream(response as any)
   return new StreamingTextResponse(stream)
 }

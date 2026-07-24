@@ -12,6 +12,13 @@ RESEND_API_KEY=""
 # Dokler nimate lastne verificirane domene, pustite na onboarding@resend.dev
 RESEND_FROM_EMAIL="360AITech <onboarding@resend.dev>"
 
+# Anthropic Claude — RAG klepet v Bazi znanja (console.anthropic.com/settings/keys)
+ANTHROPIC_API_KEY=""
+
+# Google Gemini — embeddingi za Bazo znanja (aistudio.google.com/apikey)
+GEMINI_API_KEY=""
+
+# Star demo chat (stocks predloga na "/") - odloženo, ni obvezno za Bazo znanja.
 # You must first activate a Billing Account here: https://platform.openai.com/account/billing/overview
 # Then get your OpenAI API Key here: https://platform.openai.com/account/api-keys
 OPENAI_API_KEY=""
