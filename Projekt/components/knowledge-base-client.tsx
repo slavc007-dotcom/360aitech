@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 import { useRouter } from '@/i18n/navigation'
 import { Button } from '@/components/ui/button'
-import { IconSpinner } from '@/components/ui/icons'
+import { IconSpinner, IconTrash } from '@/components/ui/icons'
 
 export interface KnowledgeDocument {
   id: string
@@ -32,6 +32,7 @@ export function KnowledgeBaseClient({
   const router = useRouter()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isUploading, setIsUploading] = useState(false)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
 
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useChat({
@@ -64,6 +65,22 @@ export function KnowledgeBaseClient({
     }
 
     if (fileInputRef.current) fileInputRef.current.value = ''
+    router.refresh()
+  }
+
+  async function handleDelete(documentId: string) {
+    setDeletingId(documentId)
+    const res = await fetch(`/api/kb/documents/${documentId}`, {
+      method: 'DELETE'
+    })
+    setDeletingId(null)
+
+    if (!res.ok) {
+      const body = await res.json().catch(() => null)
+      toast.error(body?.error ?? 'Delete failed')
+      return
+    }
+
     router.refresh()
   }
 
@@ -112,8 +129,25 @@ export function KnowledgeBaseClient({
                   title={doc.error_message ?? undefined}
                 >
                   <span className="truncate">{doc.title}</span>
-                  <span className="text-xs text-zinc-500">
-                    {t(`status${capitalize(doc.status)}` as any)}
+                  <span className="flex items-center gap-2">
+                    <span className="text-xs text-zinc-500">
+                      {t(`status${capitalize(doc.status)}` as any)}
+                    </span>
+                    {canManage ? (
+                      <button
+                        type="button"
+                        aria-label="Delete"
+                        disabled={deletingId === doc.id}
+                        onClick={() => handleDelete(doc.id)}
+                        className="text-zinc-400 hover:text-red-500 disabled:opacity-50"
+                      >
+                        {deletingId === doc.id ? (
+                          <IconSpinner className="animate-spin" />
+                        ) : (
+                          <IconTrash />
+                        )}
+                      </button>
+                    ) : null}
                   </span>
                 </li>
               ))}
