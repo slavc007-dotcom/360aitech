@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk'
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import { GoogleGenAI } from '@google/genai'
 import { AnthropicStream, GoogleGenerativeAIStream, StreamingTextResponse } from 'ai'
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
@@ -34,20 +34,21 @@ async function streamWithClaude(systemPrompt: string, messages: ChatMessage[]) {
 }
 
 async function streamWithGemini(systemPrompt: string, messages: ChatMessage[]) {
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY ?? '')
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.5-flash',
-    systemInstruction: systemPrompt
-  })
+  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY ?? '' })
 
-  const result = await model.generateContentStream({
+  const stream = await ai.models.generateContentStream({
+    model: 'gemini-2.5-flash',
     contents: messages.map(m => ({
       role: m.role === 'assistant' ? 'model' : 'user',
       parts: [{ text: m.content }]
-    }))
+    })),
+    config: { systemInstruction: systemPrompt }
   })
 
-  return GoogleGenerativeAIStream(result)
+  // `ai@3` typet GoogleGenerativeAIStream proti starejšemu @google/generative-ai
+  // paketu; @google/genai vrača strukturno enak odgovor (ista Gemini REST
+  // API oblika), le pod drugim nominalnim tipom.
+  return GoogleGenerativeAIStream({ stream } as any)
 }
 
 export async function POST(req: Request) {
